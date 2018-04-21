@@ -10,10 +10,13 @@ class WxController < ApplicationController
         order_number = sign_hash['attach']
         order = Order.find_by(number: order_number)
         if order.present? && order.payment_total == sign_hash['total_fee']
-          order.transaction_id = sign_hash['transaction_id']
-          order.next! if order.paying?
-          return_code = 'SUCCESS'
-          return_msg = 'OK'
+          order.transaction do
+            order.lock!
+            order.transaction_id = sign_hash['transaction_id']
+            order.next! if order.paying?
+            return_code = 'SUCCESS'
+            return_msg = 'OK'
+          end
         else
           return_code = 'FAIL'
           return_msg = '参数格式校验错误'

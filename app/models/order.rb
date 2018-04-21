@@ -59,6 +59,7 @@ class Order < ApplicationRecord
       end
       self.reason = 'Check sign failed'
     end
+    self.save!
     self.lose!
   end
 
