@@ -49,17 +49,20 @@ class Order < ApplicationRecord
 
   def prepare_payment(remote_ip)
     sign_hash = Draft::WX.unified_order(self.buyer, self, remote_ip)
-    if sign_hash['check_sign']
-      if sign_hash['result_code'] == 'SUCCESS'
-        self.prepay_id = sign_hash['prepay_id']
-        self.save!
-        return
-      else
-        self.reason = sign_hash['err_code_des']
+    if sign_hash['return_code'] == 'SUCCESS'
+      if sign_hash['check_sign']
+        if sign_hash['result_code'] == 'SUCCESS'
+          self.prepay_id = sign_hash['prepay_id']
+          self.save!
+          return
+        else
+          self.reason = sign_hash['err_code_des']
+        end
+        self.reason = 'Check sign failed'
       end
-      self.reason = 'Check sign failed'
+    else
+      self.reason = sign_hash['return_msg']
     end
-    self.save!
     self.lose!
   end
 
