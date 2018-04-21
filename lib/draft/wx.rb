@@ -46,7 +46,7 @@ module Draft
           'nonce_str' => nonce_str,
           'body' => "#{DRAFT_CONFIG['project_name_cn']}-#{DRAFT_CONFIG['product_name_cn']}",
           'out_trade_no' => "#{DRAFT_CONFIG['project_name']}-#{order.number}",
-          'total_fee' => fee_in_cent,
+          'total_fee' => order.payment_total,
           'spbill_create_ip' => ip,
           'notify_url' => "https://#{DRAFT_CONFIG['server_host']}#{DRAFT_CONFIG['wx_pay_notify_path']}",
           'trade_type' => 'JSAPI'
