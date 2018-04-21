@@ -1,0 +1,16 @@
+default: &default
+  token_generator_key: ''
+  encryptor_pepper: ''
+  encryptor_stretches: 8
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+  token_generator_key: '1234'
+  encryptor_pepper: '1234'
+  encryptor_stretches: 2
+
+production:
+  <<: *default

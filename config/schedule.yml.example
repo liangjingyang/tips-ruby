@@ -1,0 +1,9 @@
+# time_notification:
+#   cron: '*/15 * * * *'
+#   class: 'Octopus::Dingtalk::TimeNotificationJob'
+#   queue: cron
+
+test:
+  cron: '*/15 * * * *'
+  class: 'TimeNotificationJob'
+  queue: cron

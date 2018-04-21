@@ -1,0 +1,7 @@
+json.data do
+  json.ads_counter_interval_for_thanks @server_config.ads_counter_interval_for_thanks
+  json.ads_counter_max_count_for_thanks @server_config.ads_counter_max_count_for_thanks
+  json.ads_counter_pay_interval_for_thanks @server_config.ads_counter_pay_interval_for_thanks
+  json.notice @server_config.notice
+  json.ads_counter_max_count_for_post @server_config.ads_counter_max_count_for_post
+end

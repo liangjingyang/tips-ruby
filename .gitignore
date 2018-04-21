@@ -1,0 +1,6 @@
+tmp/
+.DS_Store
+log/
+config/database.yml
+config/draft.yml
+dump.rdb

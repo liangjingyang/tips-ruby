@@ -1,0 +1,68 @@
+class BoxesController < ApplicationController
+  before_action :authenticate_user
+
+  def create
+    @box = Box.create!(create_params.merge(user_id: 1))
+    if (create_posts_params[:posts])
+      create_posts_params[:posts].each do |post_params|
+        @box.posts.create!(post_params)
+      end
+    end
+    render :show
+  end
+
+  def index
+    if (params[:brought])
+      @boxes = current_user.following_boxes
+    else
+      @boxes = Box.where(user_id: 1).where('state != ?', 'achieved')
+    end
+    @boxes = @boxes.page(params[:page] || 1)
+  end
+
+  def show
+    @box = Box.find(params[:id])
+  end
+
+  def update
+    @box = Box.find(params[:id])
+    authorize! :update, @box
+    @box.update_attributes!(update_params)
+    render :show
+  end
+
+  def switch
+    @box = Box.find(params[:box_id])
+    authorize! :update, @box
+    @box.send("#{params[:state]}!")
+    render :show
+  end
+
+  private
+  def create_params
+    params.require(:box).permit(
+      :title,
+      :period,
+      :price,
+      :count_on_hand,
+      :tracking_inventory,
+    )
+  end
+
+  def create_posts_params
+    params.require(:box).permit(
+      posts: [:content, images:[]]
+    )
+  end
+
+  def update_params
+    params.require(:box).permit(
+      :period,
+      :price,
+      :count_on_hand,
+      :tracking_inventory,
+      :state,
+    )
+  end
+
+end

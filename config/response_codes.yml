@@ -1,0 +1,75 @@
+default: &default
+  success:
+    status: 200 
+    code: 0 
+    message: "Success."
+  failure:
+    status: 200 
+    code: 1 
+    message: "Failure."
+
+  user_unauthorized:
+    status: 401
+    code: 401001
+    message: "User unauthorized."
+  access_denied:
+    status: 401
+    code: 401002
+    message: "Access denied."
+
+  record_not_found:
+    status: 404
+    code: 404001
+    message: "Record not found."
+
+  response_symbol_undefined:
+    status: 500
+    code: 500001 
+    message: "Response symbol undefined."
+  resource_error_not_found:
+    status: 500
+    code: 500002 
+    message: "Resource error not found."
+    
+  route_not_found:
+    status: 400
+    code: 400001
+    message: "Route not found."
+  controller_not_found:
+    status: 400
+    code: 400002
+    message: "Controller not found."
+  password_empty:
+    status: 400
+    code: 400003
+    message: 'Password empty.'
+  password_invalid:
+    status: 400
+    code: 400004
+    message: 'Password invalid.'
+  uid_invalid:
+    status: 400
+    code: 400005
+    message: 'uid invalid.'
+  state_cannot_transition:
+    status: 400
+    code: 400006
+    message: 'State cannot transition.'
+  record_invalid:
+    status: 400
+    code: 400007
+    message: 'Record invalid'
+  range_error:
+    status: 400
+    code: 400008
+    message: 'Range Error'
+
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
