@@ -5,7 +5,7 @@ class WxController < ApplicationController
     begin
       xml = request.body.read
       Rails.logger.debug("notify_unified_order === , request.body: #{xml}")
-      sign_hash = Draft::WX.check_sign(xml)
+      sign_hash = Draft::WX.xml_to_hash(xml)
       if sign_hash['check_sign']
         order_number = sign_hash['attach']
         order = Order.find_by(number: order_number)

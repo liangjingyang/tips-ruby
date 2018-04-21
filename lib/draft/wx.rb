@@ -53,7 +53,7 @@ module Draft
         }
         body['sign'] = sign(body)
         puts body
-        request_post_xml(url, body)
+        return request_post_xml(url, body)
       end
 
       def random_string
@@ -78,7 +78,7 @@ module Draft
         decrypted
       end
 
-      def check_sign(xml)
+      def xml_to_hash(xml)
         doc = Nokogiri::XML(xml)
         sign_hash = {'check_sign' => false}
         sign1 = ""
@@ -99,6 +99,7 @@ module Draft
       end
 
       private
+
       def sign(h)
         h = h.sort.to_h
         s = []
@@ -148,15 +149,8 @@ module Draft
         elsif response.code != '200'
           raise StandardError, "response #{response.code}"
         end
-        res = Hash.from_xml(response.body)
-        if res['xml']['result_code'] == 'FAIL'
-          raise StandardError, res['xml']['err_code_des']
-        else
-          res
-        end
+        return xml_to_hash(response.body)
       end
-
-      
     end
   end
 end
