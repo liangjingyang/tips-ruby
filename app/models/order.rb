@@ -48,7 +48,7 @@ class Order < ApplicationRecord
   end
 
   def prepare_payment(remote_ip)
-    res = Draft::WX.unified_order(self.buyer, self.payment_total, remote_ip)
+    res = Draft::WX.unified_order(self.buyer, self, remote_ip)
     prepay_id = res['xml']['prepay_id']
     self.prepay_id = prepay_id
     self.save

@@ -35,7 +35,7 @@ module Draft
         request_get(url)
       end
 
-      def unified_order(user, order, ip, body_string='test')
+      def unified_order(user, order, ip)
         nonce_str = self.random_string
         url = "#{DRAFT_CONFIG['wx_pay_api_endpoint']}/pay/unifiedorder"
         body = {
@@ -44,7 +44,7 @@ module Draft
           'mch_id' => DRAFT_CONFIG['wx_mch_id'],
           'openid' => user.openid,
           'nonce_str' => nonce_str,
-          'body' => "#{DRAFT_CONFIG['project_name_cn']}-#{body_string}",
+          'body' => "#{DRAFT_CONFIG['project_name_cn']}-#{DRAFT_CONFIG['product_name_cn']}",
           'out_trade_no' => "#{DRAFT_CONFIG['project_name']}-#{order.number}",
           'total_fee' => fee_in_cent,
           'spbill_create_ip' => ip,
