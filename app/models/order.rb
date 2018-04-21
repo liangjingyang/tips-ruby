@@ -21,7 +21,7 @@ class Order < ApplicationRecord
       transition [:paying, :pending] => :completed
     end
 
-    event :fail do
+    event :lose do
       transition [:paying, :pending] => :failed
     end
 
@@ -59,7 +59,7 @@ class Order < ApplicationRecord
       end
       self.reason = 'Check sign failed'
     end
-    self.fail!
+    self.lose!
   end
 
   def failure!
