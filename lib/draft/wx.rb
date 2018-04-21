@@ -79,6 +79,7 @@ module Draft
       end
 
       def xml_to_hash(xml)
+        LOG_DEBUG(xml)
         doc = Nokogiri::XML(xml)
         sign_hash = {'check_sign' => false}
         sign1 = ""
