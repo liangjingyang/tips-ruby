@@ -49,8 +49,8 @@ class Ability
         can :display, Following, user_id: user.id
         can :display, Balance, user_id: user.id
         can :display, Withdraw, user_id: user.id
-        can :display, Order, user_id: user.id
-        can :modify, Order, user_id: user.id
+        can :display, Order, buyer_id: user.id
+        can :modify, Order, buyer_id: user.id
       end
     # end
   end
