@@ -30,6 +30,7 @@ class OrdersController < ApplicationController
             'timeStamp' => @time_stamp
           }
           @sign = Draft::WX.sign(sign_hash)
+        end
       end
     end
     render :checkout
