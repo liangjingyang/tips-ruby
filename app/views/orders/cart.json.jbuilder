@@ -13,4 +13,5 @@ json.data do
   json.created_at @box.created_at
   json.updated_at @box.updated_at
   json.following @following.present?
+  json.can_access @following.try(:can_access?)
 end

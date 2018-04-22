@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       
       get 'cart', to: 'orders#cart'
       post 'checkout', to: 'orders#checkout'
+      put 'report', to: 'orders#report'
 
       get :wx_unified_order, to: 'wx#unified_order'
       post :wx_notify_unified_order, to: 'wx#notify_unified_order'

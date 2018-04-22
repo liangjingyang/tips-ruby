@@ -31,7 +31,7 @@ module Draft
           "&secret=#{DRAFT_CONFIG['wx_secret']}" +
           "&js_code=#{js_code}" +
           "&grant_type=authorization_code"
-        Rails.logger.debug("url: #{url}")
+        LOG_DEBUG("url: #{url}")
         request_get(url)
       end
 
@@ -93,7 +93,7 @@ module Draft
         end
         if sign_hash['return_code'] == 'SUCCESS'
           sign2 = sign(sign_hash)
-          Rails.logger.debug("check sign: sign1: #{sign1}, sign2: #{sign2}, sign_hash: #{sign_hash}")
+          LOG_DEBUG("check sign: sign1: #{sign1}, sign2: #{sign2}, sign_hash: #{sign_hash}")
           sign_hash['check_sign'] = (sign1 == sign2)
         end
         return sign_hash

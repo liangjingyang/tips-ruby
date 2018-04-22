@@ -37,7 +37,7 @@ class Order < ApplicationRecord
         
 
     after_transition any => :completed do |order, transition|
-      Rails.logger.debug("Order #{order.number} completed.")
+      LOG_DEBUG("Order #{order.number} completed.")
     end
 
   end
@@ -78,6 +78,7 @@ class Order < ApplicationRecord
         seller_image: box.user.image,
         box_id: self.box_id,
       )
+      self.save!
     end
     touch :completed_at
     self.following.order_finalize!(self)

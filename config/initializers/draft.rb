@@ -8,6 +8,10 @@ def LOG_DEBUG(message, *tags)
   Rails.logger.tagged('== DEBUG ==', Time.now, tags) {Rails.logger.debug {message}}
 end
 
+def LOG_INFO(message, *tags)
+  Rails.logger.tagged('== INFO ==', Time.now, tags) {Rails.logger.info {message}}
+end
+
 def LOG_ERROR(message, *tags)
   Rails.logger.tagged('== ERROR ==', Time.now, tags) {Rails.logger.error {message}}
 end

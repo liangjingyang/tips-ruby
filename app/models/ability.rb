@@ -44,11 +44,13 @@ class Ability
     #   can :manage, :all
     # else
       if user
-        can :display, Box, user_id: user.id
+        can :display, Box
         can :modify, Box, user_id: user.id
         can :display, Following, user_id: user.id
         can :display, Balance, user_id: user.id
         can :display, Withdraw, user_id: user.id
+        can :display, Order, user_id: user.id
+        can :modify, Order, user_id: user.id
       end
     # end
   end

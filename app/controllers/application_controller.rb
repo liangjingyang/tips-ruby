@@ -38,12 +38,12 @@ ActiveRecord::RecordInvalid
   rescue_from ActionController::UnknownController, with: :render_controller_not_found
   rescue_from Draft::Exception::UserUnauthorized, with: :render_user_unauthorized
   rescue_from ActiveRecord::RecordInvalid do |e|
-    Rails.logger.error(e)
+    LOG_DEBUG(e)
     render_json_error('Record invalid.')
   end
 
   rescue_from ActiveModel::RangeError do |e|
-    Rails.logger.error(e)
+    LOG_DEBUG(e)
     render_json_error('Range error.')
   end
 
@@ -54,8 +54,8 @@ ActiveRecord::RecordInvalid
       "code" => code,
       "status" => Rack::Utils::SYMBOL_TO_STATUS_CODE[status],
     }
-    Rails.logger.debug("==============================")
-    Rails.logger.debug(@response_code)
+    LOG_DEBUG("==============================")
+    LOG_DEBUG(@response_code)
     render 'shared/response_code', status: status
   end
 

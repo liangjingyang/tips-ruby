@@ -9,7 +9,7 @@ class OrdersController < ApplicationController
 
   def checkout
     @box = Box.find_by(number: params[:number])
-    if @box.user_id != current_user.id
+    if @box.try(:user_id) != current_user.id
       @order = @box.create_order!(current_user)
       Order.transaction do
         @order.lock!
@@ -34,6 +34,15 @@ class OrdersController < ApplicationController
       end
     end
     render :checkout
+  end
+
+  def report
+    @order = Order.find_by(number: params[:number])
+    authorize! :update, @order
+    @order.update(:client_payment_result, params[:result])
+    @box = @order.box
+    @following = Following.find_by(box_id: @order.box_id, user_id: current_user.id)
+    render :cart
   end
 
 end

@@ -4,7 +4,8 @@ class SessionsController < ApplicationController
   def create
     @token = auth_token
     @user = entity
-    Rails.cache.write(CACHE_JWT(entity.id), @token.token, expires_in: 12.hours)
+    # Rails.cache.write(CACHE_JWT(entity.id), @token.token, expires_in: 12.hours)
+    Rails.cache.write(CACHE_JWT(entity.id), @token.token)
     LOG_DEBUG("jwt create: #{@token.token}")
   end
 

@@ -7,4 +7,13 @@ class Following < ApplicationRecord
   def order_finalize!(order)
     # 包时段
   end
+
+  def can_access?
+    if self.expired_at.present?
+      if self.expired_at < Time.zone.now.to_i
+        return false
+      end
+    end
+    return true
+  end
 end

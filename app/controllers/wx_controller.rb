@@ -4,12 +4,12 @@ class WxController < ApplicationController
   def notify_unified_order
     begin
       xml = request.body.read
-      Rails.logger.debug("notify_unified_order === , request.body: #{xml}")
+      LOG_INFO("notify_unified_order === , request.body: #{xml}")
       sign_hash = Draft::WX.xml_to_hash(xml)
       if sign_hash['check_sign']
         order_number = sign_hash['attach']
         order = Order.find_by(number: order_number)
-        if order.present? && order.payment_total == sign_hash['total_fee']
+        if order.present? && order.payment_total == sign_hash['total_fee'].to_i
           order.transaction do
             order.lock!
             order.transaction_id = sign_hash['transaction_id']

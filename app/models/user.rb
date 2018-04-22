@@ -24,7 +24,7 @@ class User < ApplicationRecord
   def self.from_token_request(permited_params)
     return if permited_params[:js_code].blank?
     session_res = Draft::WX.get_session_key(permited_params[:js_code])
-    Rails.logger.debug("session_res: #{session_res}")
+    LOG_DEBUG("session_res: #{session_res}")
     openid = session_res['openid']
     session_key = session_res['session_key']
     user = User.find_by(

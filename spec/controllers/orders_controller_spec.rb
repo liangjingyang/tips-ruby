@@ -14,7 +14,7 @@ RSpec.describe OrdersController, type: :controller do
     it "returns http success" do
       get :checkout, params: {token: token, number: box2.number}, format: :json
       expect(response).to have_http_status(:success)
-      Rails.logger.debug(response.body)
+      LOG_DEBUG(response.body)
       expect(JSON.parse(response.body)['data']['state']).to eq('completed')
     end
   end
@@ -22,7 +22,7 @@ RSpec.describe OrdersController, type: :controller do
   describe "GET #cart" do
     it "returns http success" do
       get :cart, params: {token: token, number: box2.number}, format: :json
-      Rails.logger.debug(response.body)
+      LOG_DEBUG(response.body)
       expect(response).to have_http_status(:success)
       expect(JSON.parse(response.body)['data']['canSupply']).to eq(true)
     end

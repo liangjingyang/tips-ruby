@@ -39,7 +39,7 @@ class Box < ApplicationRecord
     end
 
     after_transition any => :achieved do |box, transition|
-      Rails.logger.debug("box #{box.title} achieved.")
+      LOG_DEBUG("box #{box.title} achieved.")
     end
 
   end
