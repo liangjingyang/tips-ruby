@@ -13,6 +13,7 @@ class CreateOrders < ActiveRecord::Migration[5.1]
       t.datetime :completed_at
       t.datetime :failed_at
       t.string :reason
+      t.string :client_payment_result
       t.string :state, default: :pending, null: false
       t.decimal :total, precision: 12, scale: 2
       t.timestamps
