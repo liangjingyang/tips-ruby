@@ -99,8 +99,6 @@ module Draft
         return sign_hash
       end
 
-      private
-
       def sign(h)
         h = h.sort.to_h
         s = []
@@ -113,7 +111,7 @@ module Draft
         md5.upcase
       end
 
-
+      private
       def request_get(url)
         uri = URI.parse(url)
         https = Net::HTTP.new(uri.host, uri.port)
