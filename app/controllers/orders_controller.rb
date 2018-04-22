@@ -39,7 +39,7 @@ class OrdersController < ApplicationController
   def report
     @order = Order.find_by(number: params[:number])
     authorize! :update, @order
-    @order.update(:client_payment_result, params[:result])
+    @order.update(client_payment_result: params[:result])
     @box = @order.box
     @following = Following.find_by(box_id: @order.box_id, user_id: current_user.id)
     render :cart
