@@ -81,7 +81,7 @@ module Draft
       def xml_to_hash(xml)
         LOG_DEBUG(xml)
         doc = Nokogiri::XML(xml)
-        sign_hash = {'check_sign' => false}
+        sign_hash = {}
         sign1 = ""
         return_code = ''
         doc.xpath('//xml').first.children.each do |arg|
@@ -93,7 +93,7 @@ module Draft
         end
         if sign_hash['return_code'] == 'SUCCESS'
           sign2 = sign(sign_hash)
-          Rails.logger.debug("check sign: sign1: #{sign1}, sign2: #{sign2}")
+          Rails.logger.debug("check sign: sign1: #{sign1}, sign2: #{sign2}, sign_hash: #{sign_hash}")
           sign_hash['check_sign'] = (sign1 == sign2)
         end
         return sign_hash
