@@ -44,7 +44,7 @@ class Order < ApplicationRecord
 
   def payment_total
     # cent
-    self.total * 100
+    (self.total * 100).to_i
   end
 
   def prepare_payment(remote_ip)
