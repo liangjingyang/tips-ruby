@@ -21,7 +21,7 @@ class OrdersController < ApplicationController
           @app_id = DRAFT_CONFIG['wx_app_id']
           @nonce_str = Draft::WX.random_string
           @sign_type = 'MD5'
-          @time_stamp = Time.zone.now.to_i
+          @time_stamp = Time.zone.now.to_i.to_s
           sign_hash = {
             'appId' => @app_id,
             'nonceStr' => @nonce_str,
