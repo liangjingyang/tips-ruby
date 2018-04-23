@@ -1,4 +1,5 @@
 json.data do
+  json.id @box.id
   json.number @box.number
   json.title @box.title
   json.state @box.state
