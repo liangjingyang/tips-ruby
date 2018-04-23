@@ -11,7 +11,11 @@ class SessionsController < ApplicationController
 
   def destroy
     c.delete(CACHE_JWT(current_user.id))
-    render_success
+    render 'shared/ignore'
+  end
+
+  def check
+    render 'shared/ignore'
   end
 
   def userinfo

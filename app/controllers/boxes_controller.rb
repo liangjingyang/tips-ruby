@@ -12,12 +12,12 @@ class BoxesController < ApplicationController
   end
 
   def index
-    if (params[:brought])
+    if (params[:following])
       @boxes = current_user.following_boxes
     else
       @boxes = Box.where(user_id: current_user.id).where('state != ?', 'achieved')
     end
-    @boxes = @boxes.page(params[:page] || 1)
+    @boxes = @boxes.order('boxes.created_at desc').page(params[:page] || 1)
   end
 
   def show

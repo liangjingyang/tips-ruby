@@ -10,12 +10,14 @@ Rails.application.routes.draw do
       get :me, to: 'users#me'
 
       post 'sessions/userinfo', to: 'sessions#userinfo'
+      get 'sessions/check', to: 'sessions#check'
       resources :sessions, only: [:create, :destroy]
       resources :boxes, only: [:create, :index, :update, :show, :destroy] do
         post :generate_qrcode_token
         put :switch, to: 'boxes#switch'
-        resources :posts, only: [:create, :index]
       end
+
+      resources :posts, only: [:index]
       
       get 'cart', to: 'orders#cart'
       post 'checkout', to: 'orders#checkout'
