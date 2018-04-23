@@ -4,7 +4,7 @@ class Post < ApplicationRecord
   scope :with_includes, -> { includes(:box) }
 
   def images
-    s = super
+    s = super || []
     ss = s.map do |i|
       if !(i =~ /^https?:\/\//)
         "#{DRAFT_CONFIG['qiniu_cname']}/#{i.gsub(/^https?:\/\/.*?\//, '')}"
