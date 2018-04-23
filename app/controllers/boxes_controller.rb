@@ -15,7 +15,7 @@ class BoxesController < ApplicationController
     if (params[:brought])
       @boxes = current_user.following_boxes
     else
-      @boxes = Box.where(user_id: 1).where('state != ?', 'achieved')
+      @boxes = Box.where(user_id: current_user.id).where('state != ?', 'achieved')
     end
     @boxes = @boxes.page(params[:page] || 1)
   end
