@@ -37,13 +37,15 @@ ActiveRecord::Schema.define(version: 20180406000006) do
 
   create_table "boxes", force: :cascade do |t|
     t.integer "user_id"
+    t.string "user_name"
+    t.string "user_image"
     t.string "image"
     t.string "title"
     t.string "state", default: "created", null: false
     t.string "number"
     t.string "period_type"
     t.integer "period"
-    t.decimal "price", precision: 12, scale: 2
+    t.decimal "price", precision: 12, scale: 2, default: "0.0", null: false
     t.integer "count_on_hand", default: 0, null: false
     t.boolean "tracking_inventory", default: false, null: false
     t.integer "sales", default: 0
@@ -64,16 +66,28 @@ ActiveRecord::Schema.define(version: 20180406000006) do
 
   create_table "orders", force: :cascade do |t|
     t.string "number"
-    t.string "payment_order_id"
+    t.string "prepay_id"
+    t.string "transaction_id"
     t.integer "buyer_id"
     t.integer "seller_id"
+    t.string "buyer_name"
+    t.string "seller_name"
+    t.string "buyer_image"
+    t.string "seller_image"
     t.integer "box_id"
+    t.string "box_title"
     t.integer "following_id"
     t.integer "quantity"
-    t.decimal "price", precision: 12, scale: 2
+    t.decimal "price", precision: 12, scale: 2, default: "0.0", null: false
+    t.integer "fee_rate"
+    t.decimal "fee", precision: 12, scale: 2, default: "0.0", null: false
+    t.decimal "profit", precision: 12, scale: 2, default: "0.0", null: false
     t.datetime "completed_at"
+    t.datetime "failed_at"
+    t.string "reason"
+    t.string "client_payment_result"
     t.string "state", default: "pending", null: false
-    t.decimal "total", precision: 12, scale: 2
+    t.decimal "total", precision: 12, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -91,7 +105,7 @@ ActiveRecord::Schema.define(version: 20180406000006) do
   create_table "recommends", force: :cascade do |t|
     t.integer "user_id"
     t.integer "box_id"
-    t.decimal "retail_price", precision: 12, scale: 2
+    t.decimal "retail_price", precision: 12, scale: 2, default: "0.0", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -107,7 +121,7 @@ ActiveRecord::Schema.define(version: 20180406000006) do
     t.string "country"
     t.string "province"
     t.string "city"
-    t.string "sex"
+    t.string "gender"
     t.string "encrypted_password", default: "", null: false
     t.string "encrypted_captcha", default: "", null: false
     t.string "image"
@@ -119,9 +133,19 @@ ActiveRecord::Schema.define(version: 20180406000006) do
 
   create_table "withdraws", force: :cascade do |t|
     t.integer "user_id"
-    t.string "request_id"
-    t.decimal "amount", precision: 12, scale: 2
+    t.string "number"
+    t.decimal "amount", precision: 12, scale: 2, default: "0.0", null: false
+    t.string "state", default: "applied", null: false
+    t.string "reason"
     t.text "comment"
+    t.datetime "applied_at"
+    t.datetime "approved_at"
+    t.datetime "completed_at"
+    t.datetime "failed_at"
+    t.datetime "released_at"
+    t.datetime "canceled_at"
+    t.string "approved_by"
+    t.string "released_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

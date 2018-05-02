@@ -1,6 +1,12 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user
 
+  def sell_orders
+    @orders = current_user.sell_orders.completed
+    @orders = @orders.order('orders.completed_at desc').page(params[:page] || 1)
+  end
+    
+
   def cart
     @box = Box.find_by(number: params[:number])
     @following = Following.find_by(box_id: @box.id, user_id: current_user.id)

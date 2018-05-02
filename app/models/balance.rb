@@ -3,10 +3,22 @@ class Balance < ApplicationRecord
   validate :ensure_fee_rate_range
 
   def order_finalize!(order)
-    self.total_sales = self.total_sales + order.total
-    self.total_profit = self.total_profit + order.total * (self.fee_rate / 1000.0)
-    self.amount = self.amount + order.total * (self.fee_rate / 1000.0)
-    self.save!
+    if order.total > 0
+      self.lock!    
+      self.total_sales = self.total_sales + order.total
+      fee = order.total * (self.fee_rate / 1000.0)
+      ## 最小费用0.01元
+      min_fee = 0.01
+      fee = min_fee if fee < min_fee
+      profit = order.total - fee
+      profit = 0 if profit < 0
+      self.total_profit = self.total_profit + profit
+      self.amount = self.amount + profit
+      self.save!
+      order.update_columns({fee_rate: self.fee_rate, fee: fee, profit: profit})
+    else
+      order.update_columns({fee_rate: self.fee_rate, fee: 0, profit: 0})
+    end
   end
 
   def ensure_fee_rate_range
@@ -14,10 +26,49 @@ class Balance < ApplicationRecord
     self.fee_rate >= 20 && self.fee_rate <= 200
   end
 
+  def create_withdraw!(amount, comment)
+    return false if amount <= 0
+    self.transaction do
+      self.lock!
+      return false if self.amount < amount
+      self.amount = self.amount - amount
+      self.total_withdraw = self.total_withdraw + amount
+      self.save!
+      self.user.withdraws.create!(
+        user_id: self.user.id,
+        amount: amount,
+        comment: comment
+      )
+    end
+  end
+
   def withdraw_finalize!(withdraw)
-    self.amount = self.amount - withdraw.amount
+    self.lock!
     self.total_withdraw = self.total_withdraw + withdraw.amount
     self.save!
   end
 
+  def release_balance!(amount)
+    self.transaction do
+      self.lock!
+      self.amount = self.amount + amount
+      self.total_withdraw = self.total_withdraw - amount
+      self.save!
+      return true
+    end
+  end
+
+  def check_sales!
+    orders_total = self.user.sell_orders.completed.sum(&:total)
+    orders_total == self.total_sales
+  end
+
+  def check_profit!
+    orders_profit = self.user.sell_orders.completed.sum(&:profit)
+    orders_profit == self.total_profit
+  end
+
+  def check_balance!
+    self.total_profit >= self.amount + self.total_withdraw
+  end
 end

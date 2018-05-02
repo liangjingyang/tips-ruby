@@ -1,6 +1,12 @@
 class UsersController < ApplicationController
   before_action :authenticate_user, except: [:server_config]
 
+  def update
+    @user = current_user
+    @user.update_attributes!(update_params)
+    render :show
+  end
+  
   def upload_res_token
     user_id = current_user.try(:id) || 0
     @uptoken = Draft::Qiniu.generate_uptoken("users/#{user_id}")
@@ -20,4 +26,16 @@ class UsersController < ApplicationController
     @server_config = ServerConfig.new()
   end
 
+  private
+  def update_params
+    params.require(:user).permit(
+      :name,
+      :image,
+      :country,
+      :city,
+      :gender,
+      :province,
+      :language
+    )
+  end
 end

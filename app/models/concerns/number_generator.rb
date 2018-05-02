@@ -7,6 +7,7 @@ module NumberGenerator
 
   PREFIX_BOX = 'BX'
   PREFIX_ORDER = 'OR'
+  PREFIX_WITHDRAW = 'WD'
 
   included do
     before_validation :generate_number, on: :create # generate number before make_permalink

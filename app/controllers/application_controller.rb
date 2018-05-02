@@ -50,7 +50,7 @@ ActiveRecord::RecordInvalid
   private
   def render_json_error(error, status=:unprocessable_entity, code=1)
     @response_code = {
-      "message" => error,
+      "error" => error,
       "code" => code,
       "status" => Rack::Utils::SYMBOL_TO_STATUS_CODE[status],
     }

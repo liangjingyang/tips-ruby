@@ -11,7 +11,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :country
       t.string :province
       t.string :city
-      t.string :sex
+      t.string :gender
 
       ## Database authenticatable
       t.string :encrypted_password, :null => false, :default => ""

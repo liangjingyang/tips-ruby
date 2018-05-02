@@ -5,6 +5,8 @@ class Order < ApplicationRecord
   belongs_to :following, class_name: 'Following', inverse_of: :orders, optional: true
   before_save :update_total
 
+  scope :completed, -> { where(state: :completed) }
+
   include NumberGenerator
   def generate_number(options = {})
     options[:prefix] ||= NumberGenerator::PREFIX_ORDER

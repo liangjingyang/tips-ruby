@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       end
       get 'upload_res_token', to: 'users#upload_res_token'
       get :me, to: 'users#me'
+      get :balance, to: 'balances#show'
+      
 
       post 'sessions/userinfo', to: 'sessions#userinfo'
       get 'sessions/check', to: 'sessions#check'
@@ -22,9 +24,15 @@ Rails.application.routes.draw do
       get 'cart', to: 'orders#cart'
       post 'checkout', to: 'orders#checkout'
       put 'report', to: 'orders#report'
+      get 'sell_orders', to: 'orders#sell_orders'
+
+      resources :withdraws, only: [:create, :index] do
+        delete 'cancel', to: 'withdraws#cancel'
+      end
 
       get :wx_unified_order, to: 'wx#unified_order'
       post :wx_notify_unified_order, to: 'wx#notify_unified_order'
+      post :wx_contact, to: 'wx#contact'
 
       get :server_config, to: 'users#server_config'
 

@@ -7,6 +7,8 @@ class Box < ApplicationRecord
   has_one :recommend, class_name: 'Recommend', inverse_of: :box
   has_many :orders, class_name: 'Order', inverse_of: :box
 
+  validates :price, numericality: { greater_than_or_equal_to: 0 }  
+
   scope :with_includes, -> { includes(:user) }
 
   include NumberGenerator
@@ -65,7 +67,12 @@ class Box < ApplicationRecord
   def create_order!(user)
     self.orders.create!(
       buyer_id: user.id,
+      buyer_name: user.name,
+      buyer_image: user.image,
       seller_id: self.user_id,
+      seller_name: self.user_name,
+      seller_image: self.user_image,
+      box_title: self.title,
       quantity: 1,
       price: self.price,
     )

@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :followings, class_name: 'Following'
   has_many :following_boxes, through: :followings, class_name: 'Box', source: :box
   has_one :balance, class_name: 'Balance', inverse_of: :user
-  has_one :withdraws, class_name: 'Withdraw', inverse_of: :user
+  has_many :withdraws, class_name: 'Withdraw', inverse_of: :user
   has_many :buy_orders, class_name: 'Order', inverse_of: :buyer, foreign_key: :buyer_id
   has_many :sell_orders, class_name: 'Order', inverse_of: :seller, foreign_key: :seller_id
 
