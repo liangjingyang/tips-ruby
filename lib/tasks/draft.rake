@@ -1,4 +1,4 @@
-namespace :draft do
+namespace :tips do
   desc "db reset all"
   task :db_reset => :environment do
     puts "reset db ... "
