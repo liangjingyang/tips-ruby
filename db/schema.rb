@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20180406000006) do
     t.string "user_name"
     t.string "user_image"
     t.string "image"
+    t.string "post_image"
     t.string "title"
     t.string "state", default: "created", null: false
     t.string "number"
@@ -49,6 +50,8 @@ ActiveRecord::Schema.define(version: 20180406000006) do
     t.integer "count_on_hand", default: 0, null: false
     t.boolean "tracking_inventory", default: false, null: false
     t.integer "sales", default: 0
+    t.boolean "approved", default: false, null: false
+    t.integer "approved_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -103,10 +106,9 @@ ActiveRecord::Schema.define(version: 20180406000006) do
   end
 
   create_table "recommends", force: :cascade do |t|
-    t.integer "user_id"
     t.integer "box_id"
-    t.decimal "retail_price", precision: 12, scale: 2, default: "0.0", null: false
-    t.text "description"
+    t.integer "weight", default: 0, null: false
+    t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -126,6 +128,7 @@ ActiveRecord::Schema.define(version: 20180406000006) do
     t.string "encrypted_captcha", default: "", null: false
     t.string "image"
     t.datetime "deleted_at"
+    t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["openid"], name: "index_users_on_openid", unique: true
@@ -144,8 +147,8 @@ ActiveRecord::Schema.define(version: 20180406000006) do
     t.datetime "failed_at"
     t.datetime "released_at"
     t.datetime "canceled_at"
-    t.string "approved_by"
-    t.string "released_by"
+    t.integer "approved_by"
+    t.integer "released_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

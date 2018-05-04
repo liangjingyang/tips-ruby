@@ -13,7 +13,6 @@ json.data do
   json.sales @box.sales
   json.created_at @box.created_at
   json.updated_at @box.updated_at
-  json.is_mine @box.is_mine(current_user)
-  json.following @following.present?
-  json.can_access @following.try(:can_access?)
+  json.is_mine @box.is_mine?(current_user)
+  json.can_access @box.can_access?(current_user)
 end

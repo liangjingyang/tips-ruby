@@ -34,7 +34,9 @@ class BoxesController < ApplicationController
   def switch
     @box = Box.find(params[:box_id])
     authorize! :update, @box
-    @box.send("#{params[:state]}!")
+    if params[:state] == 'achieve'
+      @box.send("#{params[:state]}!")
+    end
     render :show
   end
 

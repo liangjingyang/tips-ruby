@@ -12,6 +12,10 @@ class User < ApplicationRecord
   has_many :sell_orders, class_name: 'Order', inverse_of: :seller, foreign_key: :seller_id
 
   after_create :create_balance
+
+  def admin?
+    self.role == 'admin'
+  end
   
   def image
     s = super

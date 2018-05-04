@@ -20,6 +20,8 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :image
       t.datetime :deleted_at
 
+      t.string :role
+
       t.timestamps
     end
     add_index :users, :openid, unique: true

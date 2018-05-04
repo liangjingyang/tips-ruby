@@ -10,6 +10,8 @@ class Box < ApplicationRecord
   validates :price, numericality: { greater_than_or_equal_to: 0 }  
 
   scope :with_includes, -> { includes(:user) }
+  scope :can_display, -> { where(state: [:available]) }
+  scope :unapproved, -> { where(approved: false).where.not(state: [:available, :created, :paused]) }
 
   include NumberGenerator
   def generate_number(options = {})
@@ -40,10 +42,29 @@ class Box < ApplicationRecord
       transition :created => :available
     end
 
+    event :forbid do
+      transition all - [:achieved, :forbidden] => :forbidden
+    end
+
     after_transition any => :achieved do |box, transition|
       LOG_DEBUG("box #{box.title} achieved.")
     end
 
+  end
+
+  def recommended?
+    self.recommend.present?
+  end
+
+  def display_state
+    h = {
+      'created' => '已创建',
+      'available' => '售卖中',
+      'paused' => '暂停中',
+      'forbidden' => '审核未通过',
+      'achieved' => '已归档',
+    }
+    h[self.state]
   end
 
   def image
@@ -54,8 +75,24 @@ class Box < ApplicationRecord
     return s
   end
 
-  def is_mine(user)
+  def post_image
+    s = super
+    if s.present? && !(s =~ /^https?:\/\//)
+      s = "#{DRAFT_CONFIG['qiniu_cname']}/#{s.gsub(/^https?:\/\/.*?\//, '')}"
+    end
+    return s
+  end
+
+  def is_mine?(user)
     user.try(:id) == self.user_id
+  end
+
+  def can_access?(user)
+    return false if user.nil?
+    return true if user.id == self.user_id
+    following = Following.where(user_id: user.id, box_id: self.id).order('followings.created_at desc').first
+    return false unless following.present?
+    return following.can_access?
   end
 
   def can_supply?(quantity = 1)

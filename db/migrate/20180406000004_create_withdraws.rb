@@ -13,8 +13,8 @@ class CreateWithdraws < ActiveRecord::Migration[5.1]
       t.datetime :failed_at
       t.datetime :released_at
       t.datetime :canceled_at
-      t.string :approved_by
-      t.string :released_by
+      t.integer :approved_by
+      t.integer :released_by
       t.timestamps
     end
   end

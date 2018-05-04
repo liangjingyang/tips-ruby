@@ -2,14 +2,21 @@ Rails.application.routes.draw do
 
   scope path: '/api', defaults: {format: :json} do
     scope path: '/v1' do
+      namespace :admin do
+        resources :boxes, only: [:index, :update] do
+          put :approve, to: 'boxes#approve'
+          put :switch, to: 'boxes#switch'
+        end
+        resources :recommends, only: [:index, :create, :update, :destroy]
+        resources :posts, only: [:index]
+      end
+
       
       resources :users, only: [:index, :show, :update] do
         get :uri_parser
       end
       get 'upload_res_token', to: 'users#upload_res_token'
       get :me, to: 'users#me'
-      get :balance, to: 'balances#show'
-      
 
       post 'sessions/userinfo', to: 'sessions#userinfo'
       get 'sessions/check', to: 'sessions#check'
@@ -20,7 +27,8 @@ Rails.application.routes.draw do
       end
 
       resources :posts, only: [:index]
-      
+      resources :recommends, only: [:index]
+
       get 'cart', to: 'orders#cart'
       post 'checkout', to: 'orders#checkout'
       put 'report', to: 'orders#report'

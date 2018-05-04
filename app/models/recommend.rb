@@ -1,4 +1,11 @@
 class Recommend < ApplicationRecord
   belongs_to :box, class_name: 'Box', inverse_of: :recommend
-  validates :retail_price, numericality: { greater_than_or_equal_to: 0 }
+
+  def can_access?(user)
+    return self.box.can_access?(user)
+  end
+
+  def is_mine?(user)
+    return self.box.is_mine?(user)
+  end
 end

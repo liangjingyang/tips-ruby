@@ -37,6 +37,7 @@ ActiveRecord::RecordInvalid
   rescue_from ActionController::RoutingError, with: :render_route_not_found
   rescue_from ActionController::UnknownController, with: :render_controller_not_found
   rescue_from Draft::Exception::UserUnauthorized, with: :render_user_unauthorized
+  rescue_from Draft::Exception::AdminUnauthorized, with: :render_admin_unauthorized
   rescue_from ActiveRecord::RecordInvalid do |e|
     LOG_DEBUG(e)
     render_json_error('Record invalid.')
@@ -73,6 +74,10 @@ ActiveRecord::RecordInvalid
   
   def render_user_unauthorized
     render_json_error('User unauthorized.', :unauthorized)
+  end
+
+  def render_admin_unauthorized
+    render_json_error('Admin unauthorized.', :unauthorized)
   end
 
   def render_access_denied

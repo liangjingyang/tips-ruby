@@ -5,6 +5,7 @@ class CreateBoxes < ActiveRecord::Migration[5.1]
       t.string :user_name
       t.string :user_image
       t.string :image
+      t.string :post_image
       t.string :title
       t.string :state, default: :created, null: false
       t.string :number
@@ -14,6 +15,8 @@ class CreateBoxes < ActiveRecord::Migration[5.1]
       t.integer :count_on_hand, default: 0, null: false
       t.boolean :tracking_inventory, default: false, null: false
       t.integer :sales, default: 0
+      t.boolean :approved, default: false, null: false
+      t.integer :approved_by
 
       t.timestamps
     end
