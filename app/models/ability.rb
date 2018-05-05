@@ -44,6 +44,9 @@ class Ability
     #   can :manage, :all
     # else
       if user
+        can :admin, User do |u|
+          user.role == 'super_admin'
+        end
         can :display, Box
         can :modify, Box, user_id: user.id
         can :display, Following, user_id: user.id

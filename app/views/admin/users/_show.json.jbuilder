@@ -14,4 +14,3 @@ json.total_profit user.balance.total_profit
 json.total_withdraw user.balance.total_withdraw
 json.fee_rate user.balance.fee_rate
 json.created_at user.created_at
-json.is_admin @user.admin?

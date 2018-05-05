@@ -14,7 +14,7 @@ class User < ApplicationRecord
   after_create :create_balance
 
   def admin?
-    self.role == 'admin'
+    self.role == 'admin' || self.role == 'super_admin'
   end
   
   def image

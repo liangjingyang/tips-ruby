@@ -9,6 +9,10 @@ Rails.application.routes.draw do
         end
         resources :recommends, only: [:index, :create, :update, :destroy]
         resources :posts, only: [:index]
+        resources :users, only: [:index, :update] do
+          put :admin, to: 'users#admin'
+        end
+        resources :withdraws, only: [:index]
       end
 
       

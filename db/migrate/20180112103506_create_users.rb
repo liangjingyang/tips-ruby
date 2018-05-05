@@ -21,6 +21,8 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.datetime :deleted_at
 
       t.string :role
+      t.string :badge
+      t.boolean :forbidden
 
       t.timestamps
     end

@@ -129,6 +129,8 @@ ActiveRecord::Schema.define(version: 20180406000006) do
     t.string "image"
     t.datetime "deleted_at"
     t.string "role"
+    t.string "badge"
+    t.boolean "forbidden"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["openid"], name: "index_users_on_openid", unique: true
