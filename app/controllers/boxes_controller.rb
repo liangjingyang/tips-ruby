@@ -2,6 +2,7 @@ class BoxesController < ApplicationController
   before_action :authenticate_user
 
   def create
+    authorize! :create Box
     @box = Box.create!(create_params.merge(user_id: current_user.id))
     if (create_posts_params[:posts])
       create_posts_params[:posts].each do |post_params|

@@ -48,7 +48,10 @@ class Ability
           user.role == 'super_admin'
         end
         can :display, Box
-        can :modify, Box, user_id: user.id
+        can :modify, Box do |box|
+          LOG_DEBUG("=============================== box: #{box}")
+          !user.forbidden? && box.user_id == user.id
+        end
         can :display, Following, user_id: user.id
         can :display, Balance, user_id: user.id
         can :display, Withdraw, user_id: user.id
