@@ -69,7 +69,7 @@ class Box < ApplicationRecord
 
   def image
     s = super
-    if s.present? && !(s =~ /^https?:\/\//)
+    if s.present? && !(s =~ /^https:\/\//)
       s = "#{DRAFT_CONFIG['qiniu_cname']}/#{s.gsub(/^https?:\/\/.*?\//, '')}"
     end
     return s
@@ -77,7 +77,7 @@ class Box < ApplicationRecord
 
   def post_image
     s = super
-    if s.present? && !(s =~ /^https?:\/\//)
+    if s.present? && !(s =~ /^https:\/\//)
       s = "#{DRAFT_CONFIG['qiniu_cname']}/#{s.gsub(/^https?:\/\/.*?\//, '')}"
     end
     return s
@@ -126,7 +126,7 @@ class Box < ApplicationRecord
     png = Draft::Qrcode.generate_png(url)
     code, res = Draft::Qiniu.upload(png, "qrcode/#{self.number}")
     if code == 200
-      self.image = "#{DRAFT_CONFIG['qiniu_cname']}/#{res["key"]}"
+      self.image = res["key"]
     end
   end
 
