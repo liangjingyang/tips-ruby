@@ -1,7 +1,8 @@
 class Withdraw < ApplicationRecord
   belongs_to :user, class_name: 'User', inverse_of: :withdraws
   scope :processing, -> { order('withdraws.created_at asc').where(state: ['applied', 'approved', 'paying']).last }
-  validates :amount, numericality: { greater_than: 0, message: '提现金额在0~20000之间'}, numericality: { less_than_or_equal_to: 20000, message: '提现金额在0~20000之间' }
+  validates :amount, numericality: { greater_than: 0, message: '提现金额在0~20000之间'}
+  validates :amount, numericality: { less_than_or_equal_to: 20000, message: '提现金额在0~20000之间' }
   delegate :balance, to: :user
 
   include NumberGenerator

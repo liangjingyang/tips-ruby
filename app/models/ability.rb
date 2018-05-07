@@ -47,16 +47,15 @@ class Ability
         can :admin, User do |u|
           user.role == 'super_admin'
         end
-        can :display, Box
-        can :modify, Box do |box|
-          LOG_DEBUG("=============================== box: #{box}")
-          !user.forbidden? && box.user_id == user.id
+        if !user.forbidden?
+          can :display, Box
+          can :modify, Box, user_id: user.id
+          can :display, Following, user_id: user.id
+          can :display, Balance, user_id: user.id
+          can :display, Withdraw, user_id: user.id
+          can :display, Order, buyer_id: user.id
+          can :modify, Order, buyer_id: user.id
         end
-        can :display, Following, user_id: user.id
-        can :display, Balance, user_id: user.id
-        can :display, Withdraw, user_id: user.id
-        can :display, Order, buyer_id: user.id
-        can :modify, Order, buyer_id: user.id
       end
     # end
   end
