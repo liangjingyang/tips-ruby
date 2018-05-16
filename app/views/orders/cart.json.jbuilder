@@ -10,6 +10,7 @@ json.data do
   json.tracking_inventory @box.tracking_inventory
   json.can_supply @box.can_supply?
   json.image @box.image
+  json.qrcode_image @box.qrcode_image
   json.sales @box.sales
   json.created_at @box.created_at
   json.updated_at @box.updated_at

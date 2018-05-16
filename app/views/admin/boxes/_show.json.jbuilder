@@ -12,6 +12,7 @@ json.price box.price
 json.count_on_hand box.count_on_hand
 json.tracking_inventory box.tracking_inventory
 json.image box.image
+json.qrcode_image box.qrcode_image
 json.sales box.sales
 json.approved box.approved
 json.recommended box.recommended?

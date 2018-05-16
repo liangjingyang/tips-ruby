@@ -9,6 +9,7 @@ class BoxesController < ApplicationController
         @box.posts.create!(post_params)
       end
     end
+    @box.composite_images
     render :show
   end
 

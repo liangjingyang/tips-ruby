@@ -4,6 +4,7 @@ class CreateBoxes < ActiveRecord::Migration[5.1]
       t.integer :user_id
       t.string :user_name
       t.string :user_image
+      t.string :qrcode_image
       t.string :image
       t.string :post_image
       t.string :title

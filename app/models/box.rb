@@ -75,6 +75,14 @@ class Box < ApplicationRecord
     return s
   end
 
+  def qrcode_image
+    s = super
+    if s.present? && !(s =~ /^https:\/\//)
+      s = "#{DRAFT_CONFIG['qiniu_cname']}/#{s.gsub(/^https?:\/\/.*?\//, '')}"
+    end
+    return s
+  end
+
   def post_image
     s = super
     if s.present? && !(s =~ /^https:\/\//)
@@ -123,10 +131,20 @@ class Box < ApplicationRecord
 
   def generate_and_upload_qrcode
     url = "https://tips.worthmore.cn/mp/box?number=#{self.number}"
-    png = Draft::Qrcode.generate_png(url)
+    png = Draft::Qrcode.generate_png(url, path)
     code, res = Draft::Qiniu.upload(png, "qrcode/#{self.number}")
     if code == 200
-      self.image = res["key"]
+      self.qrcode_image = res["key"]
+    end
+  end
+
+  def composite_images
+    file = Draft::Imagemagick.generate_box_image(box)
+    if file.present?
+      code, res = Draft::Qiniu.upload(File.read(file), "composite_image/#{self.number}")
+      if code == 200
+        self.update_column(image: res["key"])
+      end
     end
   end
 
