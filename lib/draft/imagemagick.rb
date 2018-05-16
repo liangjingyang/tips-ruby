@@ -17,9 +17,9 @@ module Draft
 
         Draft::ImageDownload.download(box.qrcode_image, qrcode_png)
         Draft::ImageDownload.download(box.user.image, icon_png)
-        username = box.user.name
+        title = box.title.gsub(/"/, '\"')
+        username = box.user.name.gsub(/"/, '\"')
         price = box.price.to_f
-        title = box.title
         
         post_image_url = box.posts.first.maybe.images.first.just
         if post_image_url
@@ -53,12 +53,20 @@ module Draft
         #{result_png}"""
         self.do_system composite_image_cmd
 
-        composite_text_cmd = "convert #{result_png} \\
-        \\( -size 900x70 -background none -fill white -font #{font_path} label:'#{title}' -trim -gravity center -extent 900x70 \\) -gravity northwest -geometry +50+175 -composite \\
-        \\( -size 320x36 -background none -fill white -font #{font_path} label:'#{username}' -trim -gravity west -extent 320x36 \\) -gravity northwest -geometry +220+66 -composite \\
-        \\( -size 310x72 -background none -fill white label:'#{price}' -trim -gravity east -extent 310x72 \\) -gravity northwest -geometry +570+45 -composite \\
-        \\( -size 44x44 -background none -fill white -font #{font_path} label:'元' -trim -gravity west -extent 44x44 \\) -gravity northwest -geometry +896+64 -composite \\
-        #{result_png}"
+        if price > 0
+          composite_text_cmd = """convert #{result_png} \\
+          \\( -size 900x60 -background none -fill white -font #{font_path} label:\"#{title}\" -trim -gravity center -extent 900x60 \\) -gravity northwest -geometry +50+184 -composite \\
+          \\( -size 320x36 -background none -fill white -font #{font_path} label:\"#{username}\" -trim -gravity west -extent 320x36 \\) -gravity northwest -geometry +220+66 -composite \\
+          \\( -size 310x72 -background none -fill white -font #{font_path} label:\"#{price}\" -trim -gravity east -extent 310x72 \\) -gravity northwest -geometry +570+45 -composite \\
+          \\( -size 44x44 -background none -fill white -font #{font_path} label:\"元\" -trim -gravity west -extent 44x44 \\) -gravity northwest -geometry +896+64 -composite \\
+          #{result_png}"""
+        else
+          composite_text_cmd = """convert #{result_png} \\
+          \\( -size 900x60 -background none -fill white -font #{font_path} label:\"#{title}\" -trim -gravity center -extent 900x60 \\) -gravity northwest -geometry +50+184 -composite \\
+          \\( -size 320x36 -background none -fill white -font #{font_path} label:\"#{username}\" -trim -gravity west -extent 320x36 \\) -gravity northwest -geometry +220+66 -composite \\
+          \\( -size 360x72 -background none -fill white -font #{font_path} label:\"免费\" -trim -gravity east -extent 360x72 \\) -gravity northwest -geometry +570+45 -composite \\
+          #{result_png}"""
+        end
         self.do_system composite_text_cmd
 
         return result_png
