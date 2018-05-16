@@ -83,12 +83,16 @@ class Box < ApplicationRecord
     return s
   end
 
-  def post_image
-    s = super
-    if s.present? && !(s =~ /^https:\/\//)
-      s = "#{DRAFT_CONFIG['qiniu_cname']}/#{s.gsub(/^https?:\/\/.*?\//, '')}"
+  def blur_images
+    s = super || []
+    ss = s.map do |i|
+      if !(i =~ /^https?:\/\//)
+        "#{DRAFT_CONFIG['qiniu_cname']}/#{i.gsub(/^https?:\/\/.*?\//, '')}"
+      else
+        i
+      end
     end
-    return s
+    return ss
   end
 
   def is_mine?(user)
@@ -131,20 +135,36 @@ class Box < ApplicationRecord
 
   def generate_and_upload_qrcode
     url = "https://tips.worthmore.cn/mp/box?number=#{self.number}"
-    png = Draft::Qrcode.generate_png(url, path)
+    png = Draft::Qrcode.generate_png(url)
     code, res = Draft::Qiniu.upload(png, "qrcode/#{self.number}")
     if code == 200
       self.qrcode_image = res["key"]
     end
   end
 
-  def composite_images
-    file = Draft::Imagemagick.generate_box_image(box)
+  # called when create box
+  def composite_main_image
+    file = Draft::Imagemagick.generate_box_image(self)
     if file.present?
       code, res = Draft::Qiniu.upload(File.read(file), "composite_image/#{self.number}")
       if code == 200
-        self.update_column(image: res["key"])
+        self.update_column(:image, res["key"])
       end
+    end
+  end
+
+  # called when recommend
+  def blur_post_images
+    image_files = Draft::Imagemagick.blur_post_images(self)
+    if image_files.present?
+      blur_images = []
+      image_files.map do |file|
+        code, res = Draft::Qiniu.upload(File.read(file), "composite_image/#{self.number}")
+        if code == 200
+          blur_images << res["key"]
+        end
+      end
+      self.update_column(:blur_images, blur_images) if blur_images.present?
     end
   end
 

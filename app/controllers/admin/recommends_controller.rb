@@ -2,6 +2,7 @@ class Admin::RecommendsController < Admin::BaseController
 
   def create
     @recommend = Recommend.find_or_create_by(create_params)
+    @recommend.box.blur_post_images if @recommend.box.blur_images.blank?
   end
 
   def index

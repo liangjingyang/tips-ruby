@@ -13,4 +13,4 @@ User.create!(openid: 2, name: "test2", app_id: "ed2", image: "http://cdn.tips.dr
 box = user.boxes.create!(title: 'box_title', price: 0.1, count_on_hand: 10)
 box.number = "BX0000000000"
 box.save
-post = box.posts.create!(content: "post content")
+post = box.posts.create!(content: "post content", images: ["http://cdn.tips.draftbox.cn/users/1/FoFoVVyi9v0F5-nBpoF7JoTu0VhW.jpg"])

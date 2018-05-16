@@ -6,7 +6,7 @@ class CreateBoxes < ActiveRecord::Migration[5.1]
       t.string :user_image
       t.string :qrcode_image
       t.string :image
-      t.string :post_image
+      t.jsonb :blur_images
       t.string :title
       t.string :state, default: :created, null: false
       t.string :number

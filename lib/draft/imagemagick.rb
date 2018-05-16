@@ -15,18 +15,16 @@ module Draft
         result_png = File.join(box_composite_dir, 'result.png')
 
 
-        # Draft::ImageDownload.download(box.qrcode_image, qrcode_png)
-        Draft::ImageDownload.download(box.image, qrcode_png)
+        Draft::ImageDownload.download(box.qrcode_image, qrcode_png)
         Draft::ImageDownload.download(box.user.image, icon_png)
         username = box.user.name
         price = box.price.to_f
         title = box.title
         
         post_image_url = box.posts.first.maybe.images.first.just
-        post_image = nil
         if post_image_url
           post_image_png = File.join(box_composite_dir, 'post_image.png')
-          post_image = Draft::ImageDownload.download(post_image_url, post_image_png)
+          Draft::ImageDownload.download(post_image_url, post_image_png)
           post_image_cmd = "convert -resize 892x412! #{post_image_png} #{post_png}"
           do_system post_image_cmd
         else
@@ -68,6 +66,27 @@ module Draft
         LOG_DEBUG("imagemagick composite images error: #{e}")
         return
       end
+    end
+
+    def self.blur_post_images(box)
+      images = box.posts.first.images.first(3)
+      return if images.blank?
+      composite_dir = File.join(Rails.root, 'tmp', 'composite')
+      Dir.mkdir(composite_dir) unless Dir.exists? composite_dir
+      box_composite_dir = File.join(composite_dir, box.number)
+      Dir.mkdir(box_composite_dir) unless Dir.exists? box_composite_dir
+      
+      result = []
+      index = 0
+      images.map do |image_url|
+        index = index + 1
+        image_path = File.join(box_composite_dir, "post_image_#{index}.png")
+        Draft::ImageDownload.download(image_url, image_path)
+        cmd = "convert -spread 10 -blur 2 #{image_path} #{image_path}"
+        system cmd
+        result << image_path
+      end
+      return result
     end
 
     def self.do_system(cmd)

@@ -14,7 +14,7 @@ json.count_on_hand box.count_on_hand
 json.tracking_inventory box.tracking_inventory
 json.image box.image
 json.qrcode_image box.qrcode_image
-json.post_image box.post_image
+json.blur_images box.blur_images
 json.sales box.sales
 json.is_mine box.is_mine?(current_user)
 json.can_access box.can_access?(current_user)
