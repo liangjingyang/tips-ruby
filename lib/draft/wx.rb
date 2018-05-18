@@ -69,10 +69,10 @@ module Draft
         cipher.decrypt
         cipher.key = session_key
         cipher.iv = iv
-        cipher.padding = 0
+        cipher.padding = 1
 
         decrypted_plain_text = cipher.update(encrypted_data) + cipher.final
-        decrypted = JSON.parse(decrypted_plain_text.strip.gsub(/\u000f|\u0010/, ''))
+        decrypted = JSON.parse(decrypted_plain_text)
         # raise('Invalid Buffer') if decrypted['watermark']['appid'] != @app_id
 
         decrypted

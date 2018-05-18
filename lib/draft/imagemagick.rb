@@ -49,7 +49,7 @@ module Draft
         #{post_png} -geometry +54+267 -composite \
         #{File.join(assets_dir, 'cover-50-263-900-420.png')} -geometry +50+263 -composite \\
         #{icon_png} -geometry +50+5 -composite \\
-        #{qrcode_png} -geometry +400+366 -composite \\
+        #{qrcode_png} -geometry +400+515 -composite \\
         #{result_png}"""
         self.do_system composite_image_cmd
 
