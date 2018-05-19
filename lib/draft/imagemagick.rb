@@ -15,10 +15,12 @@ module Draft
         result_png = File.join(box_composite_dir, 'result.png')
 
 
+        userImage = box.user.image || 'http://cdn.tips.draftbox.cn/users/1/FoFoVVyi9v0F5-nBpoF7JoTu0VhW.jpg'
         Draft::ImageDownload.download(box.qrcode_image, qrcode_png)
         Draft::ImageDownload.download(box.user.image, icon_png)
         title = box.title.gsub(/"/, '\"')
-        username = box.user.name.gsub(/"/, '\"')
+        username = box.user.name || '小黄人'
+        username = username.gsub(/"/, '\"')
         price = box.price.to_f
         
         post_image_url = box.posts.first.maybe.images.first.just
