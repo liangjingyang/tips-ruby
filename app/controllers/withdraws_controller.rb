@@ -2,8 +2,8 @@ class WithdrawsController < ApplicationController
   before_action :authenticate_user
   def create
     amount = create_params[:amount].to_f
-    if amount < 10
-      render_json_error("最低提现10元")
+    if amount < min_amount
+      render_json_error("最低提现#{min_amount}元")
       return
     end
     @withdraw = current_user.balance.create_withdraw!(amount, create_params[:comment])
@@ -23,5 +23,13 @@ class WithdrawsController < ApplicationController
       :amount,
       :comment
     )
+  end
+
+  def min_amount
+    if Rails.env == 'development'
+      return 0.1
+    else
+      return 10
+    end
   end
 end
