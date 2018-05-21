@@ -3,7 +3,7 @@ class Box < ApplicationRecord
   belongs_to :user, class_name: 'User', inverse_of: :boxes
   has_many :posts, class_name: 'Post', inverse_of: :box
   has_many :followings, class_name: 'Following'
-  has_many :followed_users, through: :followings, class_name: 'User', source: :user, uniq: true
+  has_many :followed_users, -> { distinct }, through: :followings, class_name: 'User', source: :user
   has_one :recommend, class_name: 'Recommend', inverse_of: :box
   has_many :orders, class_name: 'Order', inverse_of: :box
 
