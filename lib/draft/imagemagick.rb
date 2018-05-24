@@ -15,7 +15,8 @@ module Draft
         result_png = File.join(box_composite_dir, 'result.png')
 
 
-        user_image = box.user.image || 'http://cdn.tips.draftbox.cn/users/1/FoFoVVyi9v0F5-nBpoF7JoTu0VhW.jpg'
+        user_image = box.user.image
+        user_image = 'http://cdn.tips.draftbox.cn/users/1/FoFoVVyi9v0F5-nBpoF7JoTu0VhW.jpg' if user_image.blank?
         Draft::ImageDownload.download(box.qrcode_image, qrcode_png)
         Draft::ImageDownload.download(user_image, icon_png)
         title = box.title.gsub(/"/, '\"')
@@ -24,7 +25,7 @@ module Draft
         price = box.price.to_f
         
         post_image_url = box.posts.first.maybe.images.first.just
-        if post_image_url
+        if post_image_url.present?
           post_image_png = File.join(box_composite_dir, 'post_image.png')
           Draft::ImageDownload.download(post_image_url, post_image_png)
           post_image_cmd = "convert -resize 892x412! #{post_image_png} #{post_png}"
@@ -48,7 +49,7 @@ module Draft
         #{File.join(assets_dir, 'bg-1000-800.png')} -geometry +0+0 -composite \\
         #{File.join(assets_dir, 'head-bg-1000-160.png')} -geometry +0+0 -composite \\
         #{File.join(assets_dir, '50-263-900-420.png')} -geometry +50+263 -composite \\
-        #{post_png} -geometry +54+267 -composite \
+        #{post_png} -geometry +54+267 -composite \\
         #{File.join(assets_dir, 'cover-50-263-900-420.png')} -geometry +50+263 -composite \\
         #{icon_png} -geometry +50+5 -composite \\
         #{qrcode_png} -geometry +400+515 -composite \\
