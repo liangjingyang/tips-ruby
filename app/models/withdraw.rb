@@ -38,20 +38,11 @@ class Withdraw < ApplicationRecord
       transition [:paying] => :failed
     end
 
-    ## 手动操作, 释放balance
-    event :release do
-      transition :failed => :released
-    end
-
-    ## 用户取消
-    event :cancel do
-      transition :applied => :canceled
-    end
-
     before_transition to: :approved, do: :check_balance!
-    before_transition to: :paying, do: :do_pay!
+    after_transition to: :paying, do: :do_pay!
     after_transition to: :completed, do: :finalize!
-    after_transition to: :released, do: :release_balance!
+    after_transition to: :failed, do: :release_balance!
+    after_transition to: :rejected, do: :release_balance!
         
 
     after_transition any => [:completed, :failed, :rejected, :released] do |withdraw, transition|
@@ -89,8 +80,6 @@ class Withdraw < ApplicationRecord
       'paying' => '打款中',
       'completed' => '已完成',
       'failed' => '打款失败',
-      'released' => '提现失败',
-      'canceled' => '已取消',
       'rejected' => '审核未通过'
     }
     return h[self.state]

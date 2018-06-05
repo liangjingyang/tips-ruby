@@ -39,7 +39,6 @@ Rails.application.routes.draw do
       get 'sell_orders', to: 'orders#sell_orders'
 
       resources :withdraws, only: [:create, :index] do
-        delete 'cancel', to: 'withdraws#cancel'
       end
 
       get :wx_unified_order, to: 'wx#unified_order'

@@ -20,6 +20,9 @@ class WithdrawsController < ApplicationController
   private
   def create_params
     params.require(:withdraw).permit(
+      :real_name,
+      :id_card,
+      :bank_card,
       :amount,
       :comment
     )

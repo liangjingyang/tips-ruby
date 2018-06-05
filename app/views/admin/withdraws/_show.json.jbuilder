@@ -2,6 +2,9 @@ json.number withdraw.number
 json.amount withdraw.amount
 json.state withdraw.state
 json.display_state withdraw.display_state
+json.real_name withdraw.real_name
+json.id_card withdraw.id_card
+json.bank_card withdraw.bank_card
 json.comment withdraw.comment
 json.reason withdraw.reason
 json.created_at withdraw.created_at
