@@ -47,10 +47,10 @@ class Withdraw < ApplicationRecord
 
     after_transition any => [:completed, :failed, :rejected, :released] do |withdraw, transition|
       LOG_DEBUG("Withdraw #{withdraw.number} #{withdraw.state}.")
-      touch :completed_at if withdraw.state == 'completed'
-      touch :failed_at if withdraw.state == 'failed'
-      touch :rejected_at if withdraw.state == 'rejected'
-      touch :released_at if withdraw.state == 'released'
+      withdraw.touch :completed_at if withdraw.state == 'completed'
+      withdraw.touch :failed_at if withdraw.state == 'failed'
+      withdraw.touch :approved_at if withdraw.state == 'rejected'
+      withdraw.touch :approved_at if withdraw.state == 'approved'
     end
   end
 
