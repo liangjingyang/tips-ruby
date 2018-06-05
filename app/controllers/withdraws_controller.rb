@@ -6,7 +6,7 @@ class WithdrawsController < ApplicationController
       render_json_error("最低提现#{min_amount}元")
       return
     end
-    @withdraw = current_user.balance.create_withdraw!(amount, create_params[:comment])
+    @withdraw = current_user.balance.create_withdraw!(amount, create_params)
     if !@withdraw
       render_json_error("提现余额不足")
     end
@@ -30,7 +30,7 @@ class WithdrawsController < ApplicationController
 
   def min_amount
     if Rails.env == 'development'
-      return 0.1
+      return 0.01
     else
       return 10
     end

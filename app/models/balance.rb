@@ -26,7 +26,7 @@ class Balance < ApplicationRecord
     self.fee_rate >= 20 && self.fee_rate <= 200
   end
 
-  def create_withdraw!(amount, comment)
+  def create_withdraw!(amount, create_params)
     return false if amount <= 0
     self.transaction do
       self.lock!
@@ -37,7 +37,10 @@ class Balance < ApplicationRecord
       self.user.withdraws.create!(
         user_id: self.user.id,
         amount: amount,
-        comment: comment
+        comment: create_params[:comment],
+        real_name: create_params[:real_name],
+        id_card: create_params[:id_card],
+        bank_card: create_params[:bank_card]
       )
     end
   end
