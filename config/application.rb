@@ -40,6 +40,6 @@ module Draft
     config.middleware.use Rack::Attack
 
     config.time_zone = 'Beijing'
-    config.active_record.default_timezone = :utc
+    config.active_record.default_timezone = :local
   end
 end
