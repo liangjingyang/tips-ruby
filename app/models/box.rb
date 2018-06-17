@@ -99,9 +99,14 @@ class Box < ApplicationRecord
     user.try(:id) == self.user_id
   end
 
+  def is_free
+    self.price == 0
+  end
+
   def can_access?(user)
     return false if user.nil?
     return true if user.id == self.user_id
+    return true if is_free
     following = Following.where(user_id: user.id, box_id: self.id).order('followings.created_at desc').first
     return false unless following.present?
     return following.can_access?
@@ -129,7 +134,7 @@ class Box < ApplicationRecord
 
   def order_finalize!(order)
     self.sales = self.sales + order.quantity
-    self.count_on_hand = self.count_on_hand - order.quantity
+    self.count_on_hand = self.count_on_hand - order.quantity if self.tracking_inventory
     self.save!
   end
 
