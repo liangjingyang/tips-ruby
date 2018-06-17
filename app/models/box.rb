@@ -106,7 +106,6 @@ class Box < ApplicationRecord
   def can_access?(user)
     return false if user.nil?
     return true if user.id == self.user_id
-    return true if is_free
     following = Following.where(user_id: user.id, box_id: self.id).order('followings.created_at desc').first
     return false unless following.present?
     return following.can_access?
