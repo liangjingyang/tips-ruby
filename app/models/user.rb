@@ -59,6 +59,6 @@ class User < ApplicationRecord
   end
 
   def create_balance
-    Balance.create!(user_id: self.id, fee_rate: 50)
+    Balance.create!(user_id: self.id, fee_rate: 80)
   end
 end
