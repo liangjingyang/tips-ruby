@@ -41,6 +41,7 @@ class Balance < ApplicationRecord
         comment: create_params[:comment],
         real_name: create_params[:real_name],
         id_card: create_params[:id_card],
+        phone: create_params[:phone],
         bank_card: create_params[:bank_card]
       )
     end
