@@ -7,6 +7,7 @@ class Balance < ApplicationRecord
       self.lock!    
       self.total_sales = self.total_sales + order.total
       fee = order.total * (self.fee_rate / 1000.0)
+      fee = fee.floor(2)
       ## 最小费用0.01元
       min_fee = 0.01
       fee = min_fee if fee < min_fee
