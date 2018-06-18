@@ -4,6 +4,7 @@ json.state withdraw.state
 json.display_state withdraw.display_state
 json.real_name withdraw.real_name
 json.id_card withdraw.id_card
+json.phone withdraw.phone
 json.bank_card withdraw.bank_card
 json.comment withdraw.comment
 json.reason withdraw.reason
