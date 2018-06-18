@@ -10,6 +10,7 @@ json.period box.period
 json.price box.price
 json.count_on_hand box.count_on_hand
 json.tracking_inventory box.tracking_inventory
+json.can_supply box.can_supply?
 json.image box.image
 json.qrcode_image box.qrcode_image
 json.sales box.sales
