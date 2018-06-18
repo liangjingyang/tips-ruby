@@ -23,6 +23,7 @@ class WithdrawsController < ApplicationController
       :real_name,
       :id_card,
       :bank_card,
+      :phone,
       :amount,
       :comment
     )

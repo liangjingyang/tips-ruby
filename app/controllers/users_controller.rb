@@ -10,7 +10,9 @@ class UsersController < ApplicationController
 
   def update
     @user = current_user
-    @user.update_attributes!(update_params)
+    @update_params = update_params
+    @update_params.delete(:channel) if @user.channel.present?
+    @user.update_attributes!(@update_params)
     render :show
   end
   
@@ -45,7 +47,8 @@ class UsersController < ApplicationController
       :city,
       :gender,
       :province,
-      :language
+      :language,
+      :channel
     )
   end
 end

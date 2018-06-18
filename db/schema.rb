@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180406000006) do
+ActiveRecord::Schema.define(version: 20180618000002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 20180406000006) do
     t.boolean "forbidden"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "channel"
     t.index ["openid"], name: "index_users_on_openid", unique: true
   end
 
@@ -148,12 +149,15 @@ ActiveRecord::Schema.define(version: 20180406000006) do
     t.datetime "approved_at"
     t.datetime "completed_at"
     t.datetime "failed_at"
-    t.datetime "released_at"
-    t.datetime "canceled_at"
     t.integer "approved_by"
-    t.integer "released_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "real_name"
+    t.string "id_card"
+    t.string "bank_card"
+    t.datetime "rejected_at"
+    t.integer "rejected_by"
+    t.string "phone"
   end
 
 end
