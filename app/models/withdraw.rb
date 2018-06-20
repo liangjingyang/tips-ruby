@@ -41,8 +41,8 @@ class Withdraw < ApplicationRecord
     before_transition to: :approved, do: :check_balance!
     after_transition to: :paying, do: :do_pay!
     after_transition to: :completed, do: :finalize!
-    after_transition to: :failed, do: :release_balance!
-    after_transition to: :rejected, do: :release_balance!
+    after_transition to: :failed, do: :release_withdraw!
+    after_transition to: :rejected, do: :release_withdraw!
         
 
     after_transition any => [:completed, :failed, :rejected, :released] do |withdraw, transition|
@@ -69,8 +69,8 @@ class Withdraw < ApplicationRecord
   end
 
   ## 第三方返回提现失败, 退回balance
-  def release_balance!
-    balance.release_balance!(self.amount)
+  def release_withdraw!
+    balance.release_withdraw!(self.amount)
   end
 
   def display_state

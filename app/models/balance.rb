@@ -48,12 +48,10 @@ class Balance < ApplicationRecord
   end
 
   def withdraw_finalize!(withdraw)
-    self.lock!
-    self.total_withdraw = self.total_withdraw + withdraw.amount
-    self.save!
+    # amount and total_withdraw 已经在 create_withdraw! 和 release_withdraw! 时处理了
   end
 
-  def release_balance!(amount)
+  def release_withdraw!(amount)
     self.transaction do
       self.lock!
       self.amount = self.amount + amount
