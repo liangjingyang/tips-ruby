@@ -6,7 +6,7 @@ class Post < ApplicationRecord
   def images
     s = super || []
     ss = s.map do |i|
-      if !(i =~ /^https?:\/\//)
+      if !(i =~ /^https:\/\//)
         "#{DRAFT_CONFIG['qiniu_cname']}/#{i.gsub(/^https?:\/\/.*?\//, '')}"
       else
         i

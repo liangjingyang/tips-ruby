@@ -19,7 +19,7 @@ class User < ApplicationRecord
   
   def image
     s = super
-    if s.present? && !(s =~ /^https?:\/\//)
+    if s.present? && !(s =~ /^https:\/\//)
       s = "#{DRAFT_CONFIG['qiniu_cname']}/#{s.gsub(/^https?:\/\/.*?\//, '')}"
     end
     return s
