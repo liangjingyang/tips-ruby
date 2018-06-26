@@ -10,6 +10,12 @@ class Admin::UsersController < Admin::BaseController
     render :show
   end
 
+  def update_fee_rate
+    @user = User.find(params[:user_id])
+    @user.balance.update(fee_rate_params)
+    render :show
+  end
+
   def admin
     @user = User.find(params[:user_id])
     authorize! :admin, @user
@@ -28,6 +34,11 @@ class Admin::UsersController < Admin::BaseController
   def admin_params
     params.require(:user).permit(
       :admin
+    )
+  end
+  def fee_rate_params
+    params.require(:user).permit(
+      :fee_rate
     )
   end
 end

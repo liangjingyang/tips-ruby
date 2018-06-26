@@ -15,6 +15,7 @@ json.can_supply box.can_supply?
 json.image box.image
 json.qrcode_image box.qrcode_image
 json.sales box.sales
+json.fake_sales box.fake_sales
 json.approved box.approved
 json.recommended box.recommended?
 json.recommend_id box.recommend.try(:id)

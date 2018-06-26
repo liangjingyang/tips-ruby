@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         resources :posts, only: [:index]
         resources :users, only: [:index, :update] do
           put :admin, to: 'users#admin'
+          put :fee_rate, to: 'users#update_fee_rate'
         end
         resources :withdraws, only: [:index]
       end

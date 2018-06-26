@@ -15,7 +15,7 @@ json.tracking_inventory box.tracking_inventory
 json.image box.image
 json.qrcode_image box.qrcode_image
 json.blur_images box.blur_images
-json.sales box.sales
+json.sales box.total_sales
 json.is_mine box.is_mine?(current_user)
 json.can_access box.can_access?(current_user)
 json.created_at box.created_at

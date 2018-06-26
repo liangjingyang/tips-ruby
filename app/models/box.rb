@@ -67,6 +67,10 @@ class Box < ApplicationRecord
     h[self.state]
   end
 
+  def total_sales
+    self.sales + self.fake_sales
+  end
+
   def image
     s = super
     if s.present? && !(s =~ /^https:\/\//)

@@ -23,8 +23,8 @@ class Balance < ApplicationRecord
   end
 
   def ensure_fee_rate_range
-    # 千分位 20是2% 200是20%
-    self.fee_rate >= 20 && self.fee_rate <= 200
+    # 千分位 10是1% 200是20%
+    self.fee_rate >= 10 && self.fee_rate <= 200
   end
 
   def create_withdraw!(amount, create_params)
