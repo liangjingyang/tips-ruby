@@ -5,7 +5,7 @@ class Admin::BaseController < ApplicationController
     authenticate_user
     if !current_user.admin?
       LOG_DEBUG("authenticate_admin failed, user unauthorized")
-      raise Draft::Exception::UserUnauthorized.new 
+      raise Draft::Exception::AdminUnauthorized.new 
     end
   end
 end
