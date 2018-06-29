@@ -45,15 +45,27 @@ module Draft
         qrcode_cmd = "convert #{qrcode_png} -resize 200x200 #{qrcode_png}"
         self.do_system qrcode_cmd
 
-        composite_image_cmd = """convert -size 1000x800 -strip -colors 8 -depth 8 xc:none \\
-        #{File.join(assets_dir, 'bg-1000-800.png')} -geometry +0+0 -composite \\
-        #{File.join(assets_dir, 'head-bg-1000-160.png')} -geometry +0+0 -composite \\
-        #{File.join(assets_dir, '50-263-900-420.png')} -geometry +50+263 -composite \\
-        #{post_png} -geometry +54+267 -composite \\
-        #{File.join(assets_dir, 'cover-50-263-900-420.png')} -geometry +50+263 -composite \\
-        #{icon_png} -geometry +50+5 -composite \\
-        #{qrcode_png} -geometry +400+515 -composite \\
-        #{result_png}"""
+        if box.maybe.user.name.just =~ /rdgztest_/
+          composite_image_cmd = """convert -size 1000x800 -strip -colors 8 -depth 8 xc:none \\
+          #{File.join(assets_dir, 'bg-1000-800.png')} -geometry +0+0 -composite \\
+          #{File.join(assets_dir, 'head-bg-1000-160.png')} -geometry +0+0 -composite \\
+          #{File.join(assets_dir, '50-263-900-420.png')} -geometry +50+263 -composite \\
+          #{post_png} -geometry +54+267 -composite \\
+          #{File.join(assets_dir, 'cover-50-263-900-420.png')} -geometry +50+263 -composite \\
+          #{icon_png} -geometry +50+5 -composite \\
+          #{result_png}"""
+        else
+          composite_image_cmd = """convert -size 1000x800 -strip -colors 8 -depth 8 xc:none \\
+          #{File.join(assets_dir, 'bg-1000-800.png')} -geometry +0+0 -composite \\
+          #{File.join(assets_dir, 'head-bg-1000-160.png')} -geometry +0+0 -composite \\
+          #{File.join(assets_dir, '50-263-900-420.png')} -geometry +50+263 -composite \\
+          #{post_png} -geometry +54+267 -composite \\
+          #{File.join(assets_dir, 'cover-50-263-900-420.png')} -geometry +50+263 -composite \\
+          #{icon_png} -geometry +50+5 -composite \\
+          #{qrcode_png} -geometry +400+515 -composite \\
+          #{result_png}"""
+        end
+        
         self.do_system composite_image_cmd
 
         if price > 0
