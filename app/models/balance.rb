@@ -5,7 +5,7 @@ class Balance < ApplicationRecord
   def fee_rate
     now = Time.zone.now
     start_time = "2018-06-30T00:00:00+08:00"
-    end_time = "2018-07-06T23:59:59+08:00"
+    end_time = "2018-08-31T23:59:59+08:00"
     special_fee_rate = 10
     normal_fee_rate = super
     special_fee_rate = [special_fee_rate, normal_fee_rate].min
