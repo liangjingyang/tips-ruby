@@ -31,7 +31,7 @@ class ApplicationController < ActionController::API
   def current_ability
     Ability.new(current_user)
   end
-ActiveRecord::RecordInvalid
+
   rescue_from CanCan::AccessDenied, with: :render_access_denied
   rescue_from ActiveRecord::RecordNotFound, with: :render_record_not_found
   rescue_from ActionController::RoutingError, with: :render_route_not_found
