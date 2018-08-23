@@ -31,7 +31,7 @@ module Draft
           post_image_cmd = "convert -resize 723x311! #{post_image_png} #{post_png}"
           do_system post_image_cmd
         else
-          post_content_cmd = """convert -size 723x311 -strip -colors 8 -depth 8 xc:none \\
+          post_content_cmd = """convert -size 723x311 -strip -colors 256 -depth 8 xc:none \\
           \\( -size 792x36 -background none -fill black -font #{font_path} label:'#{box.posts.first.content}' -trim -gravity west -extent 792x36 \\) \\
           -gravity northwest -geometry +50+50 -composite #{post_png}"""
           self.do_system post_content_cmd
@@ -56,7 +56,7 @@ module Draft
           #{File.join(assets_dir, 'bg-1000-800.jpg')} -geometry +0+0 -composite \\
           #{post_png} -geometry +140+233 -composite \\
           #{icon_png} -geometry +18+11 -composite \\
-          #{File.join(assets_dir, 'qrcode-bg-220-220.png')} -geometry +392+502 -composite \\ 
+          #{File.join(assets_dir, 'qrcode-bg-220-220.png')} -geometry +392+502 -composite \\
           #{qrcode_png} -geometry +403+515 -composite \\
           #{result_png}"""
         end
