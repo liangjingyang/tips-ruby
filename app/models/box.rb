@@ -152,7 +152,7 @@ class Box < ApplicationRecord
 
   # called when create box
   def composite_main_image
-    file = Draft::Imagemagick.generate_box_image(self)
+    file = Draft::Imagemagick2.generate_box_image(self)
     if file.present?
       code, res = Draft::Qiniu.upload(File.read(file), "composite_image/#{self.number}")
       if code == 200
